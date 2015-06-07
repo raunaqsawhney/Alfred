@@ -1,6 +1,5 @@
 package com.engineeringx.alfred;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -63,8 +62,8 @@ public class MainActivity extends ListActivity {
 
     private void fetchDataFromParse() {
 
-        patients = new ArrayList<Patient>();
-        ArrayAdapter<Patient> patientListAdapter = new ArrayAdapter<Patient>(this,
+        patients = new ArrayList<>();
+        ArrayAdapter<Patient> patientListAdapter = new ArrayAdapter<>(this,
                 R.layout.patient_list_item, R.id.patientName, patients);
         setListAdapter(patientListAdapter);
 
@@ -85,10 +84,9 @@ public class MainActivity extends ListActivity {
                     // and notify the adapter
                     patients.clear();
                     for (ParseObject patient : patientList) {
-                        Patient p = new Patient(patient.getString("objectId"), patient.getString("firstName"), patient.getString("lastName"),
+                        Patient p = new Patient(patient.getObjectId(), patient.getString("firstName"), patient.getString("lastName"),
                                 patient.getInt("age"), patient.getString("gender"), patient.getInt("heartRate"),
                                 patient.getInt("bodyTemperature"));
-                        System.out.println("PATIENT: " + p.getFirstName());
                         patients.add(p);
                     }
                     ((ArrayAdapter<Patient>) getListAdapter()).notifyDataSetChanged();
@@ -104,7 +102,7 @@ public class MainActivity extends ListActivity {
 
         Patient p = patients.get(position);
         Intent intent = new Intent(this, PatientDetailActivity.class);
-        intent.putExtra("patientId", p.getPatientID());
+        intent.putExtra("patientID", p.getPatientID());
         startActivity(intent);
     }
 }
